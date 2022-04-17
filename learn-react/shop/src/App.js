@@ -1,9 +1,13 @@
 /* eslint-disable */ // 터미널에 뜨는 warning eslint 제거
-import logo from './logo.svg';
+import { useState } from 'react';
 import { Navbar, Container, Nav, NavDropdown, Jumbotron, Button } from 'react-bootstrap';
 import './App.css';
+import shoesData from './data.js'
 
 function App() {
+
+  let [shoes, shoesChange] = useState(shoesData);
+
   return (
     <div className="App">
       <Navbar bg="light" expand="lg">
@@ -37,27 +41,41 @@ function App() {
         </p>
       </Jumbotron>
 
+      {
+        // shoes.map(function(shoes, i) {
+        //   return(
+        //     <div className="container" key={i}>
+        //       <div className="row">
+        //         <div className="col-md-4">
+        //           <h4>{ shoes[i].title }</h4>
+        //           <p>{ shoes[i].content } & { shoes[i].price }</p>
+        //         </div>
+        //       </div>
+        //     </div>
+        //   )
+        // })
+      }
       <div className="container">
         <div className="row">
-          <div className="col-md-4">
-            <img src="https://codingapple1.github.io/shop/shoes1.jpg" width="100%"/>
-            <h4>상품명</h4>
-            <p>상품설명 & 가격</p>
-          </div>
-          <div className="col-md-4">
-            <img src="https://codingapple1.github.io/shop/shoes2.jpg" width="100%"/>
-            <h4>상품명</h4>
-            <p>상품설명 & 가격</p>
-          </div>
-          <div className="col-md-4">
-            <img src="https://codingapple1.github.io/shop/shoes3.jpg" width="100%"/>
-            <h4>상품명</h4>
-            <p>상품설명 & 가격</p>
-          </div>
+          {
+            shoes.map( (a, i) => {
+              return <Card shoes = {shoes[i]} i = {i} key={i}/>
+            })
+          }
         </div>
       </div>
     </div>
   );
+}
+
+function Card(props) {
+  return(
+    <div className="col-md-4">
+      <img src={ 'https://codingapple1.github.io/shop/shoes' + (props.i + 1) + '.jpg' } width="100%"/>
+      <h4>{ props.shoes.title }</h4>
+      <p>{ props.shoes.content } & { props.shoes.price }</p>
+    </div>
+  )
 }
 
 export default App;
