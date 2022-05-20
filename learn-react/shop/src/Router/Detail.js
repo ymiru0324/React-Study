@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import '../css/Detail.scss';
+import { Nav } from 'react-bootstrap';
+import {CSSTransition} from 'react-transition-group';
 
 let 박스 = styled.div`
   padding: 20px;
@@ -16,6 +18,8 @@ function Detail(props) {
 
   let [alert, alertChange] = useState(true);
   let [inputData, inputDataChange] = useState('');
+  let [pushTap, pushTapChange] = useState(0);
+  let [animaSwitch, animaSwitchChange] = useState(false);
 
   useEffect(() => {
     // 2초 후에 alert 창 사라지게
@@ -59,9 +63,39 @@ function Detail(props) {
           <button onClick={()=>{ history.push('/') }} className="btn btn-danger">뒤로가기</button> 
         </div>
       </div>
+
+      <Nav className="mt-5" variant="tabs" defaultActiveKey="link-0">
+        <Nav.Item>
+          <Nav.Link eventKey="link-0" onClick={()=>{ animaSwitchChange(false), pushTapChange(0) }}>Active</Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+          <Nav.Link eventKey="link-1" onClick={()=>{ animaSwitchChange(false), pushTapChange(1) }}>Option 2</Nav.Link>
+        </Nav.Item>
+      </Nav>
+
+      <CSSTransition in={animaSwitch} classNames="wow" timeout={500}>
+        <TabContent pushTap={pushTap} animaSwitchChange={animaSwitchChange}/>
+      </CSSTransition>
+
     </div> 
   )
 }
+function TabContent(props) {
+
+  useEffect(() => {
+    props.animaSwitchChange(true);
+  });
+
+  if (props.pushTap === 0) {
+    return  <div>0번째 내용 입니다.</div>
+  } else if (props.pushTap === 1) {
+    return <div>1번째 내용 입니다.</div>
+  } else if (props.pushTap === 2) {
+    return <div>2번째 내용 입니다.</div>
+  }
+
+}
+
 function Info(props) {
   return (
     <p>재고 : {props.stock[0]}</p>
