@@ -52,11 +52,19 @@ function Detail(props) {
           <h4 className="pt-5">{shoesData.title}</h4>
           <p>{shoesData.content}</p>
           <p>{shoesData.price}원</p>
-          <button className="btn btn-danger">주문하기</button> &nbsp;
+
+          <Info stock={props.stock}></Info>
+
+          <button className="btn btn-danger" onClick={ () => { props.stockChange([9, 11, 12]) } }>주문하기</button> &nbsp;
           <button onClick={()=>{ history.push('/') }} className="btn btn-danger">뒤로가기</button> 
         </div>
       </div>
     </div> 
+  )
+}
+function Info(props) {
+  return (
+    <p>재고 : {props.stock[0]}</p>
   )
 }
 

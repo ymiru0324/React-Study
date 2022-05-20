@@ -1,5 +1,5 @@
 /* eslint-disable */ // 터미널에 뜨는 warning eslint 제거
-import { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Navbar, Container, Nav, NavDropdown, Jumbotron, Button } from 'react-bootstrap';
 import './App.css';
 import shoesData from './data.js';
@@ -8,9 +8,12 @@ import axios from 'axios';
 
 import { Link, Route, Switch } from 'react-router-dom';
 
+let stockContext = React.createContext();
+
 function App() {
 
   let [shoes, shoesChange] = useState(shoesData);
+  let [stock, stockChange] = useState([10, 11, 12]);
 
   return (
     <div className="App">
@@ -51,6 +54,9 @@ function App() {
         </Jumbotron>
 
         <div className="container">
+
+          <stockContext.Provider value={stock}>
+
           <div className="row">
             {
               shoes.map( (a, i) => {
@@ -58,6 +64,8 @@ function App() {
               })
             }
           </div>
+
+          </stockContext.Provider>
           <button className="btn btn-primary" onClick={() => {
 
             axios.get('https://codingapple1.github.io/shop/data2.json')
@@ -74,7 +82,7 @@ function App() {
       </Route>
       
       <Route path="/detail/:id">
-        <Detail shoes={shoes}/>
+        <Detail shoes={shoes} stock={stock} stockChange={stockChange}/>
       </Route>
 
       <Route path="/:id">
@@ -86,11 +94,15 @@ function App() {
 }
 
 function Card(props) {
+
+  let stockCard = useContext(stockContext);
+
   return (
     <div className="col-md-4">
       <img src={ 'https://codingapple1.github.io/shop/shoes' + (props.i + 1) + '.jpg' } width="100%"/>
       <h4>{ props.shoes.title }</h4>
       <p>{ props.shoes.content } & { props.shoes.price }</p>
+      {stockCard[props.i]}
     </div>
   )
 }
