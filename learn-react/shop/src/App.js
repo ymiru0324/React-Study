@@ -4,6 +4,7 @@ import { Navbar, Container, Nav, NavDropdown, Jumbotron, Button } from 'react-bo
 import './App.css';
 import shoesData from './data.js';
 import Detail from './Router/Detail.js';
+import Cart from './js/Cart.js';
 import axios from 'axios';
 
 import { Link, Route, Switch } from 'react-router-dom';
@@ -83,6 +84,10 @@ function App() {
       
       <Route path="/detail/:id">
         <Detail shoes={shoes} stock={stock} stockChange={stockChange}/>
+      </Route>
+
+      <Route path="/cart">
+        <Cart></Cart>
       </Route>
 
       <Route path="/:id">
